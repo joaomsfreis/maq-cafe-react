@@ -11,7 +11,7 @@ export default class BuyButton extends React.Component {
                 alert('Falta toddy! Necessário recarregar.')
             } else {
                 event.preventDefault()
-                this.props.Enable(true, this.props.Option)
+                this.props.Enable(true, this.props.Option, this.props.Key)
             }
 
         }else {

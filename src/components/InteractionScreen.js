@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Store from "./Store";
 import ProductPallette from "./ProductPalette";
-import InsertCoin from "./InsertCoin";
+import LoadingDiv from "./LoadingDiv";
+import DrinkMe from "./DrinkMe";
 
 export default class InteractionScreen extends Component {
     constructor(props) {
@@ -17,8 +18,11 @@ export default class InteractionScreen extends Component {
             ],
             option: {},
             enableCoin: false,
-            enableSpinner1: false
-
+            enableSpinner1: false,
+            enableSpinner2: false,
+            currentSpinner: 1,
+            remove1: false,
+            remove2: false
         };
     }
 
@@ -40,32 +44,101 @@ export default class InteractionScreen extends Component {
         })
     }
 
-    enableInteraction(newCoin, newOption) {
+    enableInteraction(newCoin, newOption, newSpinner) {
         this.setState({
             enableCoin: newCoin,
-            option: newOption
+            option: newOption,
+            currentSpinner: newSpinner
         })
+
+    }
+
+    enableTransaction(newCoin) {
+        if (this.state.currentSpinner === '1') {
+            this.setState({
+                enableCoin: newCoin,
+                enableSpinner1: true
+            })
+        } else {
+            this.setState({
+                enableCoin: newCoin,
+                enableSpinner2: true
+            })
+        }
+    }
+
+    handleClick(event) {
+        event.preventDefault()
+        let coin = document.getElementById('coin').value
+
+        if (coin === '1') {
+            event.preventDefault()
+            this.decrement(this.state.option)
+            this.enableTransaction(false)
+
+        } else alert('erro')
+    }
+
+    delay(id) {
+        setTimeout(() => {
+            if (id === 1) {
+                this.setState({
+                    enableSpinner1: false,
+                    remove1: true
+                })
+            } else if (id === 2) {
+                this.setState({
+                    enableSpinner2: false,
+                    remove2: true
+                })
+            }
+        }, this.state.option.time * 1000);
+    }
+
+    return(key) {
+        if(key === '1'){
+            this.setState({ remove1: false })
+        }else this.setState({ remove2: false })
     }
 
     render() {
-        const { quantCoffe, quantMilk, quantToddy, products, enableCoin, option, enableSpinner1 } = this.state
+        const { quantCoffe, option, quantMilk, quantToddy, products, enableCoin, enableSpinner1, enableSpinner2, remove1, remove2 } = this.state
+        if (enableSpinner1 === true) {
+            this.delay(1)
+        }
+        if (enableSpinner2 === true) {
+            this.delay(2)
+        }
         return (
             <div>
                 <ProductPallette Reload={this.reload.bind(this)} Coffe={quantCoffe} Toddy={quantToddy} Milk={quantMilk} />
                 <br />
                 {
                     enableCoin ?
-                        <InsertCoin Option={option} Enable={this.enableInteraction.bind(this)} Decrement={this.decrement.bind(this)} /> :
+                        <div className="text-center">
+                            <h6>Insira a moeda:</h6>
+                            <input id='coin' type='number' style={{ width: '90px' }} />
+                            <br /><br />
+                            <button type="button" className="btn btn-dark" onClick={this.handleClick.bind(this)}>Ir</button>
+                        </div> :
                         <div className="row">
                             <div className="col-sm">
                                 {
                                     enableSpinner1 ?
-                                        <p>deu bom</p> :
-                                        <Store Decrement={this.decrement.bind(this)} Enable={this.enableInteraction.bind(this)} Products={products} Coffe={quantCoffe} Toddy={quantToddy} Milk={quantMilk} />
+                                        <LoadingDiv /> :
+                                        remove1 ?
+                                            <DrinkMe Return={this.return.bind(this)} Key="1" /> :
+                                            <Store Key="1" Decrement={this.decrement.bind(this)} Enable={this.enableInteraction.bind(this)} Products={products} Coffe={quantCoffe} Toddy={quantToddy} Milk={quantMilk} />
                                 }
                             </div>
                             <div className="col-sm">
-                                <Store Decrement={this.decrement.bind(this)} Enable={this.enableInteraction.bind(this)} Products={products} Coffe={quantCoffe} Toddy={quantToddy} Milk={quantMilk} />
+                                {
+                                    enableSpinner2 ?
+                                        <LoadingDiv /> :
+                                        remove2 ?
+                                            <DrinkMe Return={this.return.bind(this)} Key="2" /> :
+                                            <Store Key="2" Decrement={this.decrement.bind(this)} Enable={this.enableInteraction.bind(this)} Products={products} Coffe={quantCoffe} Toddy={quantToddy} Milk={quantMilk} />
+                                }
                             </div>
                         </div>
                 }
