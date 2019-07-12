@@ -1,6 +1,10 @@
+//Componente de adição de produtos
+
 import React from 'react';
 
 export default class AddProducts extends React.Component {
+    
+    //Ao clicar no botão recarregar essa função incrementa a quantidade de cafe, leite e toddy
     handleClick(event) {
         event.preventDefault()
         let coffe = parseInt(document.getElementById('coffe').value)
@@ -10,6 +14,8 @@ export default class AddProducts extends React.Component {
         this.props.Enable(false, true)
     }
 
+
+    //Representação em HTML
     render() {
         return (
             <div className="row">

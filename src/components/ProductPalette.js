@@ -13,7 +13,7 @@ export default class ProductPallette extends React.Component {
         };
     }
 
-
+    //Valida a senha digitada
     validPassword(password) {
         if (password === 'maqcafe') {
             this.enablePalette(false, false)
@@ -22,13 +22,24 @@ export default class ProductPallette extends React.Component {
         }
     }
 
-    enablePalette(newPass, newNum){
+    //Solicita a senha
+    enablePalette(newPass, newNum) {
         this.setState({
             enablePass: newPass,
             enableNum: newNum
         })
     }
+    
+    //Retorna ao estado inicial
+    back() {
+        this.setState({
+            enableNum: true,
+            enablePass: false,
+            enableAdd: false,
+        })
+    }
 
+    //Representação em HTML
     render() {
         const { enableNum, enablePass } = this.state
         return (
@@ -37,8 +48,8 @@ export default class ProductPallette extends React.Component {
                     enableNum ?
                         <NumProducts Reload={this.props.Reload} Enable={this.enablePalette.bind(this)} Coffe={this.props.Coffe} Toddy={this.props.Toddy} Milk={this.props.Milk} /> :
                         enablePass ?
-                            <PasswordInput ValidPassword={this.validPassword.bind(this)} Enable={this.enablePalette.bind(this)} Coffe={this.props.Coffe} Toddy={this.props.Toddy} Milk={this.props.Milk} /> :
-                                <AddProducts Reload={this.props.Reload} Enable={this.enablePalette.bind(this)} Coffe={this.props.Coffe} Toddy={this.props.Toddy} Milk={this.props.Milk} />
+                            <PasswordInput Back={this.back.bind(this)} ValidPassword={this.validPassword.bind(this)} Enable={this.enablePalette.bind(this)} Coffe={this.props.Coffe} Toddy={this.props.Toddy} Milk={this.props.Milk} /> :
+                            <AddProducts Reload={this.props.Reload} Enable={this.enablePalette.bind(this)} Coffe={this.props.Coffe} Toddy={this.props.Toddy} Milk={this.props.Milk} />
                 }
             </div>
         )

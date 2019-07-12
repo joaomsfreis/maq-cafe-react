@@ -1,11 +1,13 @@
 import React from 'react';
 
 export default class NumProducts extends React.Component {
+    //Abilita o recarregamento do produto
     handleClick(event) {
         event.preventDefault()
         this.props.Enable(true, false)
     }
-
+    
+    //Representação em HTML
     render() {
         return (
             <div className="row">

@@ -1,3 +1,4 @@
+//Página principal onde os componentes são agrupados
 import React from 'react';
 import Logo from './Logo';
 import InteractionScreen from './InteractionScreen';

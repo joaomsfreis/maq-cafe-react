@@ -1,6 +1,9 @@
+//Componente do botão Comprar
+
 import React from 'react';
 
 export default class BuyButton extends React.Component {
+    //Ao clicar no botão essa função emcaminha para o pagamento caso ouver os ingredientes necessários
     handleClick(event) {
         if (this.props.Option !== null) {
             if ((this.props.Option.value === 1 || this.props.Option.value === 2) && this.props.Coffe === 0) {
@@ -19,10 +22,11 @@ export default class BuyButton extends React.Component {
         }
     }
 
+    //Representação em HTML
     render() {
         return (
             <div>
-                <button type="button" className="btn btn-dark" onClick={this.handleClick.bind(this)}> Comprar</button>
+                <button type="button" className={this.props.Option.color} onClick={this.handleClick.bind(this)}> {this.props.Option.label}</button>
             </div>
         )
     }

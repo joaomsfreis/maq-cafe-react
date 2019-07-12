@@ -1,3 +1,4 @@
+//Logo do café
 import React from 'react';
 import coffe from '../img/coffe.svg';
 

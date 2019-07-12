@@ -1,3 +1,4 @@
+//Tela de carregamento
 import React from 'react';
 import Spinner from 'react-spinner-material';
 
